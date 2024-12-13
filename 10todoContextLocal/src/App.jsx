@@ -1,14 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState ,useEffect} from 'react'
 import './App.css'
+import { TodoProvider } from './Contexts/TodoContext'
 
 function App() {
-  const [count, setCount] = useState(0)
+ const [Todos,useTodos]=useState([])
 
+ const addTodo=(todo)=>{
+    useTodos ((prev)=>[...prev,{id:Date.now(),...todo}])
+ }
+
+ const updateTodo=(todo,id)=>{
+    useTodos((prev)=>prev.map((prevTodo)=>(prevTodo.id===id ? todo: prevTodo)))
+ }
+
+ const deleteTodo=(id)=>{
+    useTodos((prev)=>prev.filter((todo)=>todo.id!==id ))
+ }
+
+ const toggleComplete=(id)=>{
+    useTodos((prev)=>prev.map((prevTodo)=>prevTodo===id?{...prevTodo,compleat:!prevTodo.compleat}:prevTodo))   
+ }
+
+ useEffect=(()=>{
+      const todos=JSON.parse(localStorage.getItem("todos"))
+      if (todos && todos.length>0) {
+        useTodos(todos)
+        }
+  },[])
+
+useEffect=(()=>{
+ 
+      localStorage.setItem("todos",JSON.stringify(todos))
+  },[todos])
   return (
-    <>
-       <h1 className='bg-green-500'>Hello Word</h1>
+    <> 
+     <TodoProvider value={{addTodo,updateTodo,toggleComplete,deleteTodo}}>
+       <div className="bg-[#172842] min-h-screen py-8">
+                <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
+                    <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
+                    <div className="mb-4">
+                        {/* Todo form goes here */} 
+                    </div>
+                    <div className="flex flex-wrap gap-y-3">
+                        {/*Loop and Add TodoItem here */}
+                    </div>
+                </div>
+            </div>
+      </TodoProvider>
     </>
   )
 }
