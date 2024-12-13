@@ -20,7 +20,7 @@ function App() {
  }
 
  const toggleComplete=(id)=>{
-    useTodos((prev)=>prev.map((prevTodo)=>prevTodo.id===id?{...prevTodo,compleat:!prevTodo.compleat}:prevTodo))   
+    useTodos((prev)=>prev.map((prevTodo)=>prevTodo.id===id?{...prevTodo,completed:!prevTodo.completed}:prevTodo))   
  }
 
  useEffect(() => {
