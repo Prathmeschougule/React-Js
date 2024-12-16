@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo, updateTodo } from '../Features/Todo/TodoSlice';
 
+// This Is ReacT Redux
+
 function AddTodo({ selectedTodo, clearSelectedTodo }) {
     const [input, setInput] = useState('');
     const [isUpdating, setIsUpdating] = useState(false);
