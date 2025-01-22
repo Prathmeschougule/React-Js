@@ -1,19 +1,18 @@
-import conf from '../conf.js'
-import {Clinet,Account,ID} from 'appwrite'
+import conf from '../conf/conf';
+import {Client,Account,ID} from 'appwrite'
 
 
 export class AuthService {
-    Clinet = new Clinet();
+    Client = new Client();
     account;
 
     constructor(){
-        this.Clinet
+        this.Client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
 
-        this.account=new Account(this.Clinet);
+        this.account=new Account(this.Client);
     }
-
 
     // Create Accound
 
@@ -32,7 +31,6 @@ export class AuthService {
         }
     }
 
-
 // Login Account 
     async login({email,password}){
         try {
@@ -42,7 +40,6 @@ export class AuthService {
             throw error;
         }
     }
-
 
     // Get Current user 
     async getCurrentUser(){
@@ -63,7 +60,7 @@ export class AuthService {
            return await this.account.deleteSessions()
         } catch (error) {
             
-             console.log("Appwrite seerive :: logOut :: error",error);
+             console.log("Appwrite serive :: logOut :: error",error);
              
         }
        
@@ -74,5 +71,5 @@ const authService =  new AuthService();
 
 export default authService;
 
-// vidio 20
+
 

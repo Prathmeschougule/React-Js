@@ -1,18 +1,41 @@
 
+import { useState ,useEffect} from 'react'
+import { useDispatch } from 'react-redux'
+import authService from './appwrite/auth'
+import {login,logout} from './Store/authslice'
+
 import './App.css'
+import { Flag } from 'appwrite'
+import { Footer, Header } from './component'
 
 function App() {
-  
-//  console.log(process.env.REACT_APP_APPWRITE_URL); In react Application 
+   const [loading ,setLoading]=useState(true)
+   const  dispatch=useDispatch()
 
- console.log(import.meta.env.VITE_APPWRITE_URL); //in vite we accese the varibale  Like This 
+   useEffect(()=>{
+        authService.getCurrentUser()
+        .then((userData)=>{
+          if(userData){
+            dispatch(login({userData}))
+          }else
+          {
+              dispatch(logout())
+          }
+        })
+        .finally(()=>setLoading(false))
+   },[])
  
-
-  return (
-    <>
-      <h1>Hello </h1>
-    </>
-  )
+   return !loading ? (
+    <div  className='min-h-screen flex flex-wrap content-between  bg-gray-500'>
+       <div className='w-full block'>
+            <Header/>
+                <main>
+                  {/* TODO:  <Outlet/> */}
+                </main>
+            <Footer/>
+       </div>
+    </div>
+   ) : null
 }
 
 export default App
